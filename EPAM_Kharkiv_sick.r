@@ -20,7 +20,7 @@ summary(Kharkiv_model)
 
 # Use selected mode to forecast data
 Kharkiv_fc <- forecast(Kharkiv_model,h=5)
-plot(Kharkiv_fc, col = "red")
+plot(Kharkiv_fc, col = "red", type = "b")
 grid(lwd=1,lty=1)
 
 # time(Kharkiv_sick)
