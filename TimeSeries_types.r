@@ -1,5 +1,5 @@
-library( forecast )
-library( stats )
+library(forecast)
+library(stats)
 library(ggplot2)
 
 # White Noice
@@ -12,7 +12,8 @@ tsdisplay(random_walk)
 
 # Auto Regression
 #AR <- arima.sim(model = list(order = c(1, 0, 0)), n = 100)
-AR <- arima.sim(model = list(ar = -0.5), n = 100)
+# ar is in ]-1;1[
+AR <- arima.sim(model = list(ar = 0.5), n = 100)
 tsdisplay(AR)
 
 # Meaning Average
@@ -24,9 +25,7 @@ y <- auto.arima(AR)
 summary(y)
 plot(y)
 
-# Extra investigation of 
-
-
+# Extra investigation of AR type
 AR1 <- arima.sim(model = list(ar = 0.5), n = 100)
 AR2 <- arima.sim(model = list(ar = 0.9), n = 100)
 AR3 <- arima.sim(model = list(ar = -0.5), n = 100)
