@@ -1,0 +1,64 @@
+---
+title: "DLX UA People 2016-2018"
+author: "Oleg Starusiev"
+date: "January 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE, message=FALSE}
+library( tidyr )
+library( dplyr )
+library( ggplot2 )
+library(kableExtra)
+
+setwd("~/R")
+path <- "DLEX-ODC UA People - All Data.csv"
+
+# Classes for importing instead of factors
+ColClass <- c("character", "character", "character", "character", "character", "character",
+              "character", "character", "character", "character", "character", "character", 
+              "character",  "numeric", "character", "character", "character")
+
+# Import data from CSV file
+DLX_UA_Ppl <- read.csv(path, colClasses = ColClass )
+
+# from string to Date Conversion
+DLX_UA_Ppl$StartedIn <- as.Date(DLX_UA_Ppl$StartedIn, "%m/%d/%Y")
+DLX_UA_Ppl$EndDate <- as.Date(DLX_UA_Ppl$EndDate, "%m/%d/%Y")
+```
+
+## General Info
+
+This is 
+```{r }
+# Active vs. Total per City
+x <- DLX_UA_Ppl %>%
+  filter( Active == "Yes" ) 
+# Years on the Account distribution
+par( mfrow=c(1,2))
+  hist( x$YearsOnAccount, main = "Active: Years on Account Distribution", xlab = "Years on Account", col = "darkblue")
+  hist( DLX_UA_Ppl$YearsOnAccount, main = "Total: Years on Account Distribution", xlab = "Years on Account", col = "darkblue")
+```
+
+Table
+```{r echo=FALSE}
+  YOA_active <- hist( x$YearsOnAccount, plot = FALSE )
+  YOA_total <- hist( DLX_UA_Ppl$YearsOnAccount, plot = FALSE )
+  Years <- YOA_active$breaks[2:7]
+  Active <- YOA_active$counts
+  Total <- YOA_total$counts
+  YOA_df <- data.frame( Years, Active, Total )
+```
+
+``` {r echo = FALSE}
+YOA_df %>%
+   kable() %>%
+  kable_styling( bootstrap_options = c("striped"), full_width = F, position = "left")
+```
+
+
+
